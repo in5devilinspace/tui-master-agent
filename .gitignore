@@ -1,0 +1,94 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# venv
+.venv/
+venv/
+env/
+ENV/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.cache
+
+# mypy / ruff
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+
+# ---------- Node / TypeScript (Ink) ----------
+node_modules/
+.npm
+.yarn/
+.yarn-integrity
+.pnp.*
+*.tsbuildinfo
+dist/
+out/
+
+# ---------- Rust (Ratatui / Cursive) ----------
+target/
+Cargo.lock.bak
+
+# ---------- Go (Bubble Tea) ----------
+bin/
+*.exe
+*.test
+*.out
+vendor/
+
+# ---------- OS / editor ----------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.code-workspace
+
+# ---------- Project runtime artifacts ----------
+study_sessions/*/clones/
+study_sessions/*/generated/
+study_sessions/*/logs/
+learning_db.json
+learning_db.json.bak
+.tui-master/
+secrets.env
+.env
+.env.*
+!.env.example
+
+# ---------- Models / large blobs ----------
+*.bin
+*.safetensors
+*.ckpt
+*.gguf
