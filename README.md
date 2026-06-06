@@ -1,83 +1,120 @@
 # TUI Master Agent
 
-> An autonomous multi-agent system that learns from real GitHub TUI repositories and generates new ones — including Termux-friendly mobile variants.
+> Point it at a real GitHub TUI repo. It studies the code, figures out the framework, and generates a small **original** TUI in that same framework — then proves the result actually runs.
 
-![status: revival in progress](https://img.shields.io/badge/status-revival%20in%20progress-orange)
+![CI](https://github.com/in5devilinspace/tui-master-agent/actions/workflows/ci.yml/badge.svg)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 
+```bash
+python tui_master.py https://github.com/Textualize/textual
+# Cloning https://github.com/Textualize/textual
+# Framework detected -> textual (signatures=3212, files=918)
+# Generating with claude-opus-4-7 ...
+# Wrote 1 file(s) to output/textual - "Pixel Pond"
+# Verifying the generated TUI runs ...
+# run_test headless -> exit 0
+# OK - python main.py from output/textual
+```
+
 ---
 
-## Where this is in the comeback arc
+## The comeback arc
 
-This is the **`v0.0.1-before`** snapshot.
+This project was **scoped on January 23, 2026** as an ambitious multi-agent
+system — three sub-agents, a compounding learning database, six frameworks, a
+Termux converter. The full spec is preserved, untouched, in
+[`ARCHITECTURE.md`](./ARCHITECTURE.md), frozen at the
+[`v0.0.1-before`](https://github.com/in5devilinspace/tui-master-agent/releases/tag/v0.0.1-before)
+tag.
 
-The repo currently contains:
+Then it hit a wall. The hard part was designing "patterns as a data structure,"
+the scope was wide, and it sat dormant for four and a half months — an
+architecture spec and zero implementation.
 
-- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — the original architectural spec, drafted **January 23, 2026**, materialized verbatim into the repo today as the "before" exhibit
-- `LICENSE` (MIT)
-- This README
+The [GitHub Finish-Up-A-Thon](https://dev.to/challenges/github-2026-05-21) was
+the forcing function. In the final sprint I deliberately **cut the scope to the
+spine** and shipped the one thing that makes the whole idea real: a working
+single-agent generator. The sub-agents, learning DB, and Termux converter are
+honest roadmap items (see below), not claims.
 
-And nothing else. No orchestrator. No sub-agents. No skill. No tests. No demo.
+This isn't the finished vision. It's the start of finishing.
 
-That's the point. This commit is the **frozen "before"** — the moment the dormant idea became a repo so the comeback could be measured against something real.
+## What it actually does (today)
 
-The "after" lands on the [GitHub Finish-Up-A-Thon](https://dev.to/challenges/github-2026-05-21) submission post on **June 5, 2026**. By then, this README will look very different.
+A single-file orchestrator, [`tui_master.py`](./tui_master.py), runs the whole
+pipeline inline:
 
-## What's coming (per the spec)
+1. **Clone** the given GitHub repo (shallow).
+2. **Detect** the TUI framework with *heuristics, not AI* — file-extension
+   counts plus import-signature grep. A Rich-only repo is never mistaken for
+   Textual; a Go repo is recognized as Bubble Tea.
+3. **Gather** the README plus the few most framework-dense source files.
+4. **Generate** a small, original TUI in the same framework in a single
+   `claude-opus-4-7` call.
+5. **Write** it to `output/<framework>/`.
+6. **Verify** it runs — framework-native and headless, no TTY required:
+   Textual via its official `run_test()` pilot, Bubble Tea via `go build`.
 
-The full plan lives in [`ARCHITECTURE.md`](./ARCHITECTURE.md). Short version:
+### Detected vs verified
 
-```
-                ┌──────────────────────────┐
-                │  TUI Master orchestrator │
-                │     (tui_master.py)      │
-                └─────────────┬────────────┘
-                              │
-        ┌─────────────────────┼─────────────────────┐
-        ▼                     ▼                     ▼
-┌───────────────┐    ┌────────────────┐    ┌───────────────────┐
-│ Pattern       │    │ TUI Validator  │    │ Termux Converter  │
-│ Learner       │    │ (awesome-tuis  │    │ (Android-friendly │
-│ (extracts UX  │    │  quality bar)  │    │  subset rewriter) │
-│  primitives)  │    │                │    │                   │
-└───────┬───────┘    └────────┬───────┘    └─────────┬─────────┘
-        │                     │                      │
-        └─────────────────────┼──────────────────────┘
-                              ▼
-                ┌──────────────────────────┐
-                │   learning_db.json       │
-                │  (compounding memory)    │
-                └──────────────────────────┘
-```
+| Framework | Language | Detection | Generation | Headless run-verification |
+|---|---|:---:|:---:|:---:|
+| **Textual** | Python | ✅ | ✅ | ✅ `run_test()` |
+| **Bubble Tea** | Go | ✅ | ✅ | ✅ `go build` |
+| Rich | Python | ✅ | ✅ | best-effort |
+| Ratatui | Rust | ✅ | ✅ | not yet |
+| Ink | JS/TS | ✅ | ✅ | not yet |
+| Cursive | Rust | ✅ | ✅ | not yet |
 
-**Frameworks the agent targets:** Textual, Bubble Tea, Ratatui, Ink, Cursive, Rich.
+Two frameworks across two languages are wired end-to-end with automated
+run-verification. The detector covers all six.
 
-**One CLI invocation:**
+## Quickstart
 
 ```bash
-python tui_master.py \
-  --feed https://github.com/Textualize/textual \
-  --feed https://github.com/charmbracelet/bubbletea \
-  --feed https://github.com/ratatui-org/ratatui \
-  --termux \
-  --categories "Dashboards,Development,Monitoring"
+uv venv && uv pip install -e ".[dev]"        # or: pip install -e ".[dev]"
+
+# Anthropic SDK creds (ANTHROPIC_API_KEY; ANTHROPIC_BASE_URL if self-routed)
+export ANTHROPIC_API_KEY=sk-...
+
+python tui_master.py https://github.com/Textualize/textual
+python tui_master.py https://github.com/charmbracelet/bubbletea
 ```
 
-## Why the gap?
+Useful flags: `--framework {textual,rich,bubbletea,...}` to force one,
+`--out DIR`, `--max-files N`, `--dry-run` (clone + detect only, no API call),
+`--no-verify`, `--local PATH` (skip cloning).
 
-Drafted the architecture on a Sunday in late January, opened a Claude Code session the next day, got two paragraphs into the orchestrator stub and stopped. The "study session learning" abstraction was hard, the scope was wide, and life happened. Four months of nothing.
+See [`examples/`](./examples/) for sample generated TUIs (a Textual "Pixel Pond"
+and a Bubble Tea Pomodoro timer) — committed verbatim as the model produced them.
 
-The [GitHub Finish-Up-A-Thon](https://dev.to/challenges/github-2026-05-21) announcement on May 21 was the kick.
+## Roadmap
+
+The original [`ARCHITECTURE.md`](./ARCHITECTURE.md) vision, tracked as issues and
+explicitly **not built yet**:
+
+- Pattern Learner sub-agent — extract reusable UX primitives across studied repos
+- TUI Validator sub-agent — score output against an "awesome-tuis" quality bar
+- Termux Converter sub-agent — Android-friendly variant of each generated TUI
+- `learning_db.json` — compounding symbolic memory across study sessions
+- Headless run-verification for Rust / JS frameworks (Ratatui, Ink, Cursive)
+
+## Built with
+
+Architecture, orchestration, and the verification harness: Claude Code
+(`claude-opus-4-7`). Generation calls go through the Anthropic Python SDK.
+Conventional Commits; MIT licensed.
+
+## Acknowledgements
+
+Frameworks studied and credited: [Textualize/textual](https://github.com/Textualize/textual),
+[charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea),
+[Textualize/rich](https://github.com/Textualize/rich),
+[ratatui/ratatui](https://github.com/ratatui/ratatui),
+[vadimdemedes/ink](https://github.com/vadimdemedes/ink),
+[gyscos/cursive](https://github.com/gyscos/cursive).
 
 ## License
 
 MIT. See [`LICENSE`](./LICENSE).
-
-## Acknowledgements
-
-Frameworks studied and credited in their own scaffold files: [Textualize/textual](https://github.com/Textualize/textual), [charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea), [ratatui-org/ratatui](https://github.com/ratatui-org/ratatui), [vadimdemedes/ink](https://github.com/vadimdemedes/ink), [gyscos/cursive](https://github.com/gyscos/cursive), [Textualize/rich](https://github.com/Textualize/rich).
-
----
-
-_If you're a judge reading this on June 5 and the README is still this short — the project shipped at v0.0.1-before and nothing else. Tag was meant to be a baseline, not a milestone._
