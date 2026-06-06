@@ -2,7 +2,6 @@
 
 > Point it at a real GitHub TUI repo. It studies the code, figures out the framework, and generates a small **original** TUI in that same framework — then proves the result actually runs.
 
-![CI](https://github.com/in5devilinspace/tui-master-agent/actions/workflows/ci.yml/badge.svg)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 
@@ -99,6 +98,8 @@ explicitly **not built yet**:
 - Termux Converter sub-agent — Android-friendly variant of each generated TUI
 - `learning_db.json` — compounding symbolic memory across study sessions
 - Headless run-verification for Rust / JS frameworks (Ratatui, Ink, Cursive)
+- Enable CI — the lint+type+test matrix is ready in [`ci/ci.yml`](./ci/ci.yml);
+  move it to `.github/workflows/` once the push token has `workflow` scope
 
 ## Built with
 
