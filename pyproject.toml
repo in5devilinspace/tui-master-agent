@@ -33,6 +33,8 @@ include = ["tui_master.py"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+# Generated artifacts are model output, not maintained source - don't lint them.
+extend-exclude = ["examples", "output"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "W"]
