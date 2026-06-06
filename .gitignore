@@ -78,6 +78,8 @@ Thumbs.db
 # ---------- Project runtime artifacts ----------
 output/
 examples/**/__pycache__/
+examples/bubbletea/inspired
+examples/bubbletea/bubbletea
 study_sessions/*/clones/
 study_sessions/*/generated/
 study_sessions/*/logs/

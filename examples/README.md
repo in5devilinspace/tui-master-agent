@@ -7,6 +7,7 @@ then verified to run headlessly before being committed here.
 | Example | Framework | Studied repo | Run |
 |---|---|---|---|
 | [`textual/`](./textual/) | Textual (Python) | [Textualize/textual](https://github.com/Textualize/textual) | `pip install textual && python examples/textual/main.py` |
+| [`bubbletea/`](./bubbletea/) | Bubble Tea (Go) | [charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea) | `cd examples/bubbletea && go run .` |
 
 These are illustrative outputs, not hand-written. Regenerate your own with:
 
