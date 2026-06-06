@@ -76,6 +76,8 @@ Thumbs.db
 *.code-workspace
 
 # ---------- Project runtime artifacts ----------
+output/
+examples/**/__pycache__/
 study_sessions/*/clones/
 study_sessions/*/generated/
 study_sessions/*/logs/
