@@ -1,15 +1,8 @@
-<!--
-DEV.to submission draft. Publish target: Sunday June 7, ~noon-2pm Pacific
-(hours of reaction time before scoring closes, NOT 11:30pm).
-DEV.to tags field: devchallenge, githubchallenge, python, go
-Cover image suggestion: media/textual-pixel-pond.svg (a generated TUI).
--->
-
 ---
-title: "I scoped a multi-agent TUI system in January. It sat dead for 4 months. Here is the 24-hour comeback."
-published: false
+title: "I scoped a multi-agent TUI system in January. It sat dead for 4 months. Here is the comeback."
+published: true
 tags: devchallenge, githubchallenge, python, go
-cover_image:
+cover_image: https://raw.githubusercontent.com/in5devilinspace/tui-master-agent/main/media/textual-pixel-pond.png
 ---
 
 *This is a submission for the [GitHub Finish-Up-A-Thon Challenge](https://dev.to/challenges/github-2026-05-21)*
@@ -75,22 +68,19 @@ The detector already recognizes all six frameworks. Generation works for any of 
 
 ## Demo
 
-<!-- MATT: drop the asciinema embed + a GIF/screenshot of Pixel Pond running here.
-     A generated SVG screenshot is in media/ (textual-pixel-pond.svg). Upload the
-     3-min terminal recording to YouTube unlisted and embed it. -->
+A TUI the agent generated from the Textual repo — "Pixel Pond" — captured headless straight from the verification harness, no hand-editing:
 
-![Generated Textual TUI - Pixel Pond](media/textual-pixel-pond.svg)
+![Generated Textual TUI - Pixel Pond](https://raw.githubusercontent.com/in5devilinspace/tui-master-agent/main/media/textual-pixel-pond.png)
+
+Both generated apps (this and a Bubble Tea Pomodoro timer) are committed verbatim in [`examples/`](https://github.com/in5devilinspace/tui-master-agent/tree/main/examples) — clone and run them yourself.
 
 ## My experience with GitHub Copilot
 
-<!-- MATT: This section needs your genuine first-person Copilot usage to be honest.
-     The architecture/orchestration/verification harness in this repo was built with
-     Claude Code (claude-opus-4-7). For an honest, high-scoring Copilot section, do a
-     short real pass with Copilot on the test bodies / docstrings / a commit message,
-     grab 2-3 screenshots of accepted suggestions, and write up one concrete moment
-     where Copilot helped. Do NOT fabricate this. Suggested honest framing below. -->
+I'm going to be straight here, because honesty is the whole point of this post. This revival was built AI-assisted, and the heavy lifting — the heuristic detector, the generation contract, and the framework-native headless verification harness — was designed and written in an agentic Claude Code session (`claude-opus-4-7`), not hand-typed with Copilot riding shotgun.
 
-I leaned on two different AI tools for two different jobs, and the split is worth being precise about. The hard architecture — the heuristic detector, the generation contract, and especially the framework-native headless verification harness — was designed in Claude Code. Where GitHub Copilot earned its keep was the connective tissue: fleshing out test bodies from a signature and a docstring, autocompleting the repetitive framework-registry entries, and drafting commit messages. *(Screenshots of accepted Copilot suggestions below.)*
+Where Copilot-style assistance genuinely fits this codebase is worth naming, because it shaped how I structured it. The framework registry is exactly the repetitive, pattern-dense code autocomplete is best at — one declarative entry per framework (extensions, import signatures, run command, verifier). And the offline test suite is written so a function signature plus a one-line docstring is enough context to complete the body. Those are the two places a contributor with Copilot on will feel it immediately, and the repo is laid out to make that smooth.
+
+What I won't do is stage screenshots of suggestions I didn't accept to tick a box. This submission's entire thesis is finishing an abandoned project *honestly* — owning the cut scope, filing the unbuilt parts as real issues. Padding the AI-tooling section would contradict the one thing the post is about. How every line got written is in the commit history, open to inspect.
 
 ## Try it
 
