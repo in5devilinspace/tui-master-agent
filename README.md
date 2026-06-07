@@ -5,6 +5,8 @@
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 
+![TUI Master Agent](https://raw.githubusercontent.com/in5devilinspace/tui-master-agent/main/media/cover.png)
+
 ```bash
 python tui_master.py https://github.com/Textualize/textual
 # Cloning https://github.com/Textualize/textual
