@@ -5,7 +5,9 @@
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 
-![TUI Master Agent](https://raw.githubusercontent.com/in5devilinspace/tui-master-agent/main/media/cover.png)
+![Full pipeline demo: clone, detect, generate, verify](https://raw.githubusercontent.com/in5devilinspace/tui-master-agent/main/media/demo.gif)
+
+*One real, uncut run (long waits trimmed): clone → detect → generate → headless-verify → the generated app's code.*
 
 ```bash
 python tui_master.py https://github.com/Textualize/textual
