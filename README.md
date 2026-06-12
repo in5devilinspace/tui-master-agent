@@ -41,6 +41,18 @@ honest roadmap items (see below), not claims.
 
 This isn't the finished vision. It's the start of finishing.
 
+### Verify the comeback yourself
+
+| Exhibit | Link |
+|---|---|
+| The "before": the frozen spec, zero implementation | [repo at `v0.0.1-before`](https://github.com/in5devilinspace/tui-master-agent/tree/v0.0.1-before) |
+| The whole comeback in one diff | [`v0.0.1-before...main`](https://github.com/in5devilinspace/tui-master-agent/compare/v0.0.1-before...main) |
+| The original Jan 23 spec, untouched since | [`ARCHITECTURE.md`](./ARCHITECTURE.md) |
+
+(One honest note on dates: the spec is dated **January 23**; the public repo was
+created **May 26** to freeze that spec verbatim as the `v0.0.1-before` exhibit
+before the build began. The dormant months lived in a drawer, not in git.)
+
 ## What it actually does (today)
 
 A single-file orchestrator, [`tui_master.py`](./tui_master.py), runs the whole
