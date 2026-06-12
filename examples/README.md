@@ -8,6 +8,7 @@ then verified to run headlessly before being committed here.
 |---|---|---|---|
 | [`textual/`](./textual/) | Textual (Python) | [Textualize/textual](https://github.com/Textualize/textual) | `pip install textual && python examples/textual/main.py` |
 | [`bubbletea/`](./bubbletea/) | Bubble Tea (Go) | [charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea) | `cd examples/bubbletea && go run .` |
+| [`rich/`](./rich/) | Rich (Python) | [Textualize/rich](https://github.com/Textualize/rich) | `pip install rich && python examples/rich/main.py` |
 
 These are illustrative outputs, not hand-written. Regenerate your own with:
 

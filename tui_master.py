@@ -272,7 +272,10 @@ Hard requirements for the code you produce:
       imported and driven by Textual's `run_test()` pilot), and guard the
       interactive launch under `if __name__ == "__main__": <YourApp>().run()`.
     * Rich (Python): put the demo in a `main()` function guarded by
-      `if __name__ == "__main__": main()`. Do not block on input at import time.
+      `if __name__ == "__main__": main()`. The script MUST render its full
+      output and exit 0 on its own within ~10 seconds with NO user input
+      (no input()/Prompt.ask on the default path; cap any Live/animation
+      loop at a fixed number of frames).
     * Bubble Tea (Go): `package main`, a standard `func main()`, must compile
       cleanly with `go build`. Use only the bubbletea/lipgloss/bubbles modules.
 - No network access, no files written at runtime.
@@ -444,6 +447,27 @@ def _verify_go(out_dir: Path) -> tuple[bool, str]:
     return True, "\n".join(log)
 
 
+def _verify_rich(fw: Framework, out_dir: Path) -> tuple[bool, str]:
+    ok, msg = _py_compile_all(out_dir)
+    if not ok:
+        return False, msg
+    entry = (out_dir / fw.entry).resolve()
+    try:
+        res = subprocess.run(
+            [sys.executable, str(entry)],
+            cwd=out_dir, capture_output=True, text=True, timeout=30,
+            stdin=subprocess.DEVNULL,
+        )
+    except subprocess.TimeoutExpired:
+        return False, f"{msg}\nrender run timed out (blocked on input or unbounded loop)"
+    log = f"{msg}\nheadless render run -> exit {res.returncode}, stdout {len(res.stdout)}B"
+    if res.returncode != 0:
+        return False, log + "\n" + (res.stderr or res.stdout)[-800:]
+    if not res.stdout.strip():
+        return False, log + "\nrendered nothing to stdout"
+    return True, log
+
+
 def _verify_generic(fw: Framework, out_dir: Path) -> tuple[bool, str]:
     if fw.language == "python":
         ok, msg = _py_compile_all(out_dir)
@@ -457,6 +481,8 @@ def verify_runs(fw: Framework, gen: Generation, out_dir: Path) -> tuple[bool, st
         return _verify_textual(fw, out_dir)
     if fw.name == "bubbletea":
         return _verify_go(out_dir)
+    if fw.name == "rich":
+        return _verify_rich(fw, out_dir)
     return _verify_generic(fw, out_dir)
 
 

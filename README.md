@@ -77,12 +77,12 @@ pipeline inline:
 |---|---|:---:|:---:|:---:|
 | **Textual** | Python | ✅ | ✅ | ✅ `run_test()` |
 | **Bubble Tea** | Go | ✅ | ✅ | ✅ `go build` |
-| Rich | Python | ✅ | ✅ | best-effort |
+| **Rich** | Python | ✅ | ✅ | ✅ headless render run |
 | Ratatui | Rust | ✅ | ✅ | not yet |
 | Ink | JS/TS | ✅ | ✅ | not yet |
 | Cursive | Rust | ✅ | ✅ | not yet |
 
-Two frameworks across two languages are wired end-to-end with automated
+Three frameworks across two languages are wired end-to-end with automated
 run-verification. The detector covers all six.
 
 ## Quickstart
